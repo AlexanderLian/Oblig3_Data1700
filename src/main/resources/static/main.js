@@ -36,20 +36,16 @@ function kjopBillet() {
         $("#etternavnError").html("");
     }
 
-    if (telefonnr === "") {
-        $("#telError").html("Må skrive noe i telefonnr");
-        validInput = false;
-    } else if (telefonnr < 0) {
+    const norwegianPhoneRegex = /^(?:\+47)?\s?(\d{2}\s?\d{2}\s?\d{2}\s?\d{2}|\d{3}\s?\d{2}\s?\d{3}|\d{5}\s?\d{3})$/;
+    if (!norwegianPhoneRegex.test(telefonnr)){
         $("#telError").html("Skriv in gyldig telefonnr");
         validInput = false;
     } else {
         $("#telError").html("");
     }
 
-    if (epost === "") {
-        $("#epostError").html("Må skrive noe i epost");
-        validInput = false;
-    } else if (!epost.includes("@")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+    if (!emailRegex.test(epost)){
         $("#epostError").html("Skriv in gyldig epost");
         validInput = false;
     } else {
@@ -67,7 +63,7 @@ function kjopBillet() {
         $.post("/lagre", billett, function (){
             hentAlle();
         });
-        $("#film").val("");
+        $("#film").val(-1);
         $("#numAnt").val("");
         $("#txtFornavn").val("");
         $("#txtEtternavn").val("");
